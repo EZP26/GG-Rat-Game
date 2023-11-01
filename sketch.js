@@ -3,7 +3,7 @@ let res = 25;
 
 function setup()
 {
-  createCanvas(800, 450);
+  createCanvas(1600, 900);
   
   noStroke();
   
