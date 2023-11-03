@@ -16,9 +16,9 @@ let count = 0;
 function draw()
 {
   if(count % 3 == 0){
-
     if(maze.stack.length != 0)
     {
+      background("#aee68e");
       mazeIterate();
       drawMaze();
     }
@@ -183,11 +183,11 @@ function drawTile(tile, i, j)
   
   if(tile.seen == true)
   {
-    fill(0);
+    fill("#e0ecff");
     square(i*res, j*res, res);
     
     strokeWeight(2);
-    stroke("white");
+    stroke("black");
     if(tile.up == "wall")
     {
       line((i)*res, (j)*res, 
