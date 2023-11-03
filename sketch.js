@@ -1,5 +1,5 @@
 let maze = null;
-let res = 25;
+let res = 50;
 
 function setup()
 {
@@ -15,18 +15,16 @@ function setup()
 let count = 0;
 function draw()
 {
-  if(count % 30 == 0)
-  {
-    if(maze.stack.length != 0)
+  if(count % 3 == 0){
+
+    while(maze.stack.length != 0)
     {
-      background("#4A1D91");
       mazeIterate();
       drawMaze();
     }
   }
   count++;
 }
-
 function makeMaze(w, h)
 {
   maze = 
