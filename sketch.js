@@ -17,7 +17,7 @@ function draw()
 {
   if(count % 3 == 0){
 
-    while(maze.stack.length != 0)
+    if(maze.stack.length != 0)
     {
       mazeIterate();
       drawMaze();
@@ -25,6 +25,7 @@ function draw()
   }
   count++;
 }
+
 function makeMaze(w, h)
 {
   maze = 
