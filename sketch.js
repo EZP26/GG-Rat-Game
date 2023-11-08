@@ -1,5 +1,7 @@
 let maze = null;
 let res = 50;
+let count = 0;
+let tileCount = 0;
 
 function setup()
 {
@@ -12,17 +14,20 @@ function setup()
   drawMaze();
 }
 
-let count = 0;
 function draw()
 {
-  if(count % 3 == 0){
-    if(maze.stack.length != 0)
+  startGame();
+}
+
+function startGame(){
+  //if(count % 3 == 0){
+    while(maze.stack.length != 0)
     {
       background("#aee68e");
       mazeIterate();
       drawMaze();
     }
-  }
+  //}
   count++;
 }
 
@@ -83,6 +88,12 @@ function mazeIterate()
     
     current.isCurrent = false;
     tileAndWall.tile.isCurrent = true;
+
+    tileCount++;
+
+    if(tileCount % 30 == 0){
+      drawCheese(tileAndWall.tile.x, tileAndWall.tile.y);
+    }
   }
   else if(maze.stack.length != 0)
   {
@@ -90,6 +101,12 @@ function mazeIterate()
     maze.stack[
       maze.stack.length-1].isCurrent = true;
   }
+}
+
+function drawCheese(i, j) {
+  fill("yellow");
+  noStroke();
+  circle(i*res + res/2, j*res + res/2, res/3);
 }
 
 function pickNeighbor(tile)
