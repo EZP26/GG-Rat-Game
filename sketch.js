@@ -4,6 +4,7 @@ let count = 0;
 let tileCount = 0;
 let mouseXPos = 0;
 let mouseYPos = 0;
+let isKeyPressed = false;
 
 function setup() {
   createCanvas(1600, 900);
@@ -18,8 +19,14 @@ function draw() {
     mazeIterate();
     drawMaze();
   }
+
+  if (!isKeyPressed) {
+    drawMouse();
+  }
+
   count++;
 }
+
 
 function makeMaze(w, h) {
   maze = {
@@ -72,8 +79,6 @@ function mazeIterate() {
     tileAndWall.tile.seen = true;
     maze.stack.push(tileAndWall.tile);
 
-    maze.tiles[mouseXPos][mouseYPos].isCurrent = false;
-
     current.isCurrent = false;
     tileAndWall.tile.isCurrent = true;
 
@@ -88,6 +93,11 @@ function mazeIterate() {
   }
 }
 
+function drawCheese(i, j) {
+  fill("yellow");
+  noStroke();
+  circle(i * res + res / 2, j * res + res / 2, res / 3);
+}
 
 function pickNeighbor(tile) {
   let unSeen = [];
@@ -178,18 +188,43 @@ function drawTile(tile, i, j) {
   }
 }
 
-function moveMouse(){
-  
+function keyPressed() {
+  isKeyPressed = true;
+
+  if (keyCode === UP_ARROW || key === "W") {
+    moveMouse(0, -1);
+  } else if (keyCode === DOWN_ARROW || key === "S") {
+    moveMouse(0, 1);
+  } else if (keyCode === LEFT_ARROW || key === "A") {
+    moveMouse(-1, 0);
+  } else if (keyCode === RIGHT_ARROW || key === "D") {
+    moveMouse(1, 0);
+  }
 }
 
-function keyPresed(){
-  if (keyCode === UP_ARROW || "w"){
-    
-  } else if (keyCode === DOWN_ARROW || "s"){
-    
-  } else if (keyCode === RIGHT_ARROW || "d"){
-    
-  } else if (keyCode === LEFT_ARROW || "a"){
-    
+function keyReleased() {
+  isKeyPressed = false;
+}
+
+
+function moveMouse(dx, dy) {
+  if (isKeyPressed) {
+    let nextX = mouseXPos + dx;
+    let nextY = mouseYPos + dy;
+
+    if (
+      nextX >= 0 &&
+      nextX < maze.w &&
+      nextY >= 0 &&
+      nextY < maze.h &&
+      maze.tiles[nextX][nextY].isCurrent !== false
+    ) {
+      maze.tiles[mouseXPos][mouseYPos].isCurrent = false;
+
+      mouseXPos = nextX;
+      mouseYPos = nextY;
+
+      maze.tiles[mouseXPos][mouseYPos].isCurrent = true;
+    }
   }
 }
