@@ -1,5 +1,5 @@
 let maze = null;
-let res = 50;
+let res = 40;
 let count = 0;
 let tileCount = 0;
 let mouseXPos = 0;
@@ -7,11 +7,11 @@ let mouseYPos = 0;
 let isKeyPressed = false;
 
 function setup() {
-  createCanvas(1600, 900);
+  createCanvas(720, 720);
   noStroke();
   makeMaze(width / res + 2, height / res + 2);
   drawMaze();
-  
+
   while (maze.stack.length != 0) {
     background("#aee68e");
     mazeIterate();
@@ -21,11 +21,6 @@ function setup() {
 
 function draw() {
 
-  if (!isKeyPressed) {
-    drawMouse();
-  }
-
-  count++;
 }
 
 
@@ -63,12 +58,6 @@ function makeMaze(w, h) {
   maze.stack.push(maze.tiles[1][1]);
 }
 
-function drawMouse() {
-  fill("gray");
-  noStroke();
-  circle(mouseXPos * res + res / 2, mouseYPos * res + res / 2, res / 2);
-}
-
 function mazeIterate() {
   let current = maze.stack.pop();
 
@@ -92,12 +81,6 @@ function mazeIterate() {
     current.isCurrent = false;
     maze.stack[maze.stack.length - 1].isCurrent = true;
   }
-}
-
-function drawCheese(i, j) {
-  fill("yellow");
-  noStroke();
-  circle(i * res + res / 2, j * res + res / 2, res / 3);
 }
 
 function pickNeighbor(tile) {
@@ -185,47 +168,6 @@ function drawTile(tile, i, j) {
     }
     if (tile.right == "wall") {
       line(i * res, j * res, i * res, (j + 1) * res);
-    }
-  }
-}
-
-function keyPressed() {
-  isKeyPressed = true;
-
-  if (keyCode === UP_ARROW || key === "W") {
-    moveMouse(0, -1);
-  } else if (keyCode === DOWN_ARROW || key === "S") {
-    moveMouse(0, 1);
-  } else if (keyCode === LEFT_ARROW || key === "A") {
-    moveMouse(-1, 0);
-  } else if (keyCode === RIGHT_ARROW || key === "D") {
-    moveMouse(1, 0);
-  }
-}
-
-function keyReleased() {
-  isKeyPressed = false;
-}
-
-
-function moveMouse(dx, dy) {
-  if (isKeyPressed) {
-    let nextX = mouseXPos + dx;
-    let nextY = mouseYPos + dy;
-
-    if (
-      nextX >= 0 &&
-      nextX < maze.w &&
-      nextY >= 0 &&
-      nextY < maze.h &&
-      maze.tiles[nextX][nextY].isCurrent !== false
-    ) {
-      maze.tiles[mouseXPos][mouseYPos].isCurrent = false;
-
-      mouseXPos = nextX;
-      mouseYPos = nextY;
-
-      maze.tiles[mouseXPos][mouseYPos].isCurrent = true;
     }
   }
 }
