@@ -11,14 +11,15 @@ function setup() {
   noStroke();
   makeMaze(width / res + 2, height / res + 2);
   drawMaze();
-}
-
-function draw() {
+  
   while (maze.stack.length != 0) {
     background("#aee68e");
     mazeIterate();
     drawMaze();
   }
+}
+
+function draw() {
 
   if (!isKeyPressed) {
     drawMouse();
