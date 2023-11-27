@@ -20,7 +20,7 @@ function setup() {
 }
 
 function draw() {
-
+  count++;
 }
 
 
@@ -74,13 +74,11 @@ function mazeIterate() {
 
     tileCount++;
 
-    if (tileCount % 30 == 0) {
-      drawCheese(tileAndWall.tile.x, tileAndWall.tile.y);
-    }
-  } else if (maze.stack.length != 0) {
+    if (maze.stack.length != 0) {
     current.isCurrent = false;
     maze.stack[maze.stack.length - 1].isCurrent = true;
   }
+}
 }
 
 function pickNeighbor(tile) {
