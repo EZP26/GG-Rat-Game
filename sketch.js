@@ -5,12 +5,20 @@ let tileCount = 0;
 let mouseXPos = 0;
 let mouseYPos = 0;
 let isKeyPressed = false;
+let mouseDot = {
+  x: 1,
+  y: 1,
+};
+
 
 function setup() {
   createCanvas(720, 720);
   noStroke();
   makeMaze(width / res + 2, height / res + 2);
   drawMaze();
+
+  mouseXPos = mouseDot.x * res;
+  mouseYPos = mouseDot.y * res;
 
   while (maze.stack.length != 0) {
     background("#aee68e");
@@ -20,9 +28,38 @@ function setup() {
 }
 
 function draw() {
+  fill("red");
+  ellipse(mouseXPos + res / 2, mouseYPos + res / 2, res / 2);
   count++;
 }
 
+function mousePressed() {
+  let i = floor(mouseX / res);
+  let j = floor(mouseY / res);
+
+  if (i >= 0 && i < maze.w && j >= 0 && j < maze.h && maze.tiles[i][j].seen) {
+    mouseDot.x = i;
+    mouseDot.y = j;
+    mouseXPos = i * res;
+    mouseYPos = j * res;
+  }
+}
+
+function keyPressed() {
+  if (keyCode === UP_ARROW && mouseDot.y > 0 && maze.tiles[mouseDot.x][mouseDot.y].down !== "wall") {
+    mouseDot.y--;
+    mouseYPos -= res;
+  } else if (keyCode === DOWN_ARROW && mouseDot.y < maze.h - 1 && maze.tiles[mouseDot.x][mouseDot.y].up !== "wall") {
+    mouseDot.y++;
+    mouseYPos += res;
+  } else if (keyCode === RIGHT_ARROW && mouseDot.x < maze.w - 1 && maze.tiles[mouseDot.x][mouseDot.y].right !== "wall") {
+    mouseDot.x++;
+    mouseXPos += res;
+  } else if (keyCode === LEFT_ARROW && mouseDot.x > 0 && maze.tiles[mouseDot.x][mouseDot.y].left !== "wall") {
+    mouseDot.x--;
+    mouseXPos -= res;
+  }
+}
 
 function makeMaze(w, h) {
   maze = {
