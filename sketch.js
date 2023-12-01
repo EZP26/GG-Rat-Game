@@ -6,10 +6,9 @@ let mouseXPos = 0;
 let mouseYPos = 0;
 let isKeyPressed = false;
 let mouseDot = {
-  x: 1,
-  y: 1,
+  x: 0,
+  y: 0,
 };
-
 
 function setup() {
   createCanvas(720, 720);
@@ -46,19 +45,46 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (keyCode === UP_ARROW && mouseDot.y > 0 && maze.tiles[mouseDot.x][mouseDot.y].down !== "wall") {
-    mouseDot.y--;
-    mouseYPos -= res;
-  } else if (keyCode === DOWN_ARROW && mouseDot.y < maze.h - 1 && maze.tiles[mouseDot.x][mouseDot.y].up !== "wall") {
-    mouseDot.y++;
-    mouseYPos += res;
+  let newX = mouseDot.x;
+  let newY = mouseDot.y;
+
+  // Update the new position based on the key pressed
+  if (keyCode === UP_ARROW && mouseDot.y > 0 && maze.tiles[mouseDot.x][mouseDot.y].up !== "wall") {
+    newY--;
+  } else if (keyCode === DOWN_ARROW && mouseDot.y < maze.h - 1 && maze.tiles[mouseDot.x][mouseDot.y].down !== "wall") {
+    newY++;
   } else if (keyCode === RIGHT_ARROW && mouseDot.x < maze.w - 1 && maze.tiles[mouseDot.x][mouseDot.y].right !== "wall") {
-    mouseDot.x++;
-    mouseXPos += res;
+    newX++;
   } else if (keyCode === LEFT_ARROW && mouseDot.x > 0 && maze.tiles[mouseDot.x][mouseDot.y].left !== "wall") {
-    mouseDot.x--;
-    mouseXPos -= res;
+    newX--;
   }
+
+  // Check if the new position is valid and update the position
+  if (isValidMove(mouseDot.x, mouseDot.y, newX, newY)) {
+    mouseDot.x = newX;
+    mouseDot.y = newY;
+    mouseXPos = newX * res;
+    mouseYPos = newY * res;
+  }
+}
+
+function isValidMove(currX, currY, newX, newY) {
+  // Check if the new position is within the bounds
+  if (newX < 0 || newY < 0 || newX >= maze.w || newY >= maze.h) {
+    return false;
+  }
+
+  // Check if there is a wall between the current and new positions
+  if (
+    (newX > currX && maze.tiles[currX][currY].right === "wall") ||
+    (newX < currX && maze.tiles[newX][newY].right === "wall") ||
+    (newY > currY && maze.tiles[currX][currY].down === "wall") ||
+    (newY < currY && maze.tiles[newX][newY].down === "wall")
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 function makeMaze(w, h) {
@@ -112,10 +138,10 @@ function mazeIterate() {
     tileCount++;
 
     if (maze.stack.length != 0) {
-    current.isCurrent = false;
-    maze.stack[maze.stack.length - 1].isCurrent = true;
+      current.isCurrent = false;
+      maze.stack[maze.stack.length - 1].isCurrent = true;
+    }
   }
-}
 }
 
 function pickNeighbor(tile) {
