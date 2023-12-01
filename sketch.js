@@ -36,10 +36,14 @@ function keyPressed() {
   let newX = mouseDot.x;
   let newY = mouseDot.y;
 
-  if (keyCode == UP_ARROW) {
-    
-  } else if (keyCode == DOWN_ARROW) {
-    
+  if (keyCode == UP_ARROW || "W") {
+    newY--;
+  } else if (keyCode == DOWN_ARROW || "S") {
+    newY++;
+  } else if (keyCode == RIGHT_ARROW || "D") {
+    newX++;
+  } else if (keyCode == LEFT_ARROW || "A"){
+    newX--;
   }
 }
 
@@ -84,7 +88,7 @@ function mazeIterate() {
   if (tileAndWall) {
     maze.stack.push(current);
     tileAndWall.tile[tileAndWall.wall] = "open";
-    current[opositeWall(tileAndWall.wall)] = "open";
+    current[oppositeWall(tileAndWall.wall)] = "open";
     tileAndWall.tile.seen = true;
     maze.stack.push(tileAndWall.tile);
 
@@ -139,7 +143,7 @@ function pickNeighbor(tile) {
   return unSeen[Math.floor(Math.random() * unSeen.length)];
 }
 
-function opositeWall(wall) {
+function oppositeWall(wall) {
   if (wall == "up") {
     return "down";
   } else if (wall == "down") {
