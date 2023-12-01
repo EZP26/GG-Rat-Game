@@ -14,7 +14,6 @@ function setup() {
   createCanvas(720, 720);
   noStroke();
   makeMaze(width / res + 2, height / res + 2);
-  drawMaze();
 
   mouseXPos = mouseDot.x * res;
   mouseYPos = mouseDot.y * res;
@@ -29,6 +28,7 @@ function setup() {
 function draw() {
   fill("red");
   ellipse(mouseXPos + res / 2, mouseYPos + res / 2, res / 2);
+  drawMaze();
   count++;
 }
 
