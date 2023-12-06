@@ -4,7 +4,9 @@ let count = 0;
 let tileCount = 0;
 let mouseXPos = 0;
 let mouseYPos = 0;
-let isKeyPressed = false;
+let newX;
+let newY;
+let currentTile;
 let mouseDot = {
   x: 0,
   y: 0,
@@ -16,8 +18,6 @@ function setup() {
   makeMaze(width / res + 2, height / res + 2);
   drawMaze();
 
-  mouseXPos = mouseDot.x * res;
-  mouseYPos = mouseDot.y * res;
 
   while (maze.stack.length != 0) {
     background("#aee68e");
@@ -27,25 +27,47 @@ function setup() {
 }
 
 function draw() {
+  mouseXPos = mouseDot.x * res;
+  mouseYPos = mouseDot.y * res;
   drawMaze();
   fill("red");
   ellipse(mouseXPos + res / 2, mouseYPos + res / 2, res / 2);
 }
 
-function keyPressed() {
-  let newX = mouseDot.x;
-  let newY = mouseDot.y;
-
-  if (keyCode == UP_ARROW || "W") {
-    newY--;
-  } else if (keyCode == DOWN_ARROW || "S") {
-    newY++;
-  } else if (keyCode == RIGHT_ARROW || "D") {
-    newX++;
-  } else if (keyCode == LEFT_ARROW || "A"){
-    newX--;
-  }
+function hasWall(x, y, direction) {
+  const wallStatus = maze.tiles[x][y][direction];
+  console.log(`Checking wall at (${x}, ${y}) in direction ${direction}. Status: ${wallStatus}`);
+  return wallStatus === "wall";
 }
+
+function keyPressed() {
+  currentTile = maze.tiles[mouseDot.x][mouseDot.y];
+  console.log("Before Move - Current Tile:", currentTile);
+  console.log("Before Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
+
+  if (keyCode === UP_ARROW || key === "W") {
+    if (mouseDot.y !== 0 && currentTile.up !== "open") {
+      mouseDot.y--;
+    }
+  } else if (keyCode === DOWN_ARROW || key === "S") {
+    if (mouseDot.y !== 17 && currentTile.down !== "wall") {
+      mouseDot.y++;
+    }
+  } else if (keyCode === RIGHT_ARROW || key === "D") {
+    if (mouseDot.x !== 17 && currentTile.right !== "wall") {
+      mouseDot.x++;
+    }
+  } else if (keyCode === LEFT_ARROW || key === "A") {
+    if (mouseDot.x !== 0 && currentTile.left !== "wall") {
+      mouseDot.x--;
+    }
+  }
+
+  console.log("After Move - Current Tile:", currentTile);
+  console.log("After Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
+}
+
+
 
 function makeMaze(w, h) {
   maze = {
