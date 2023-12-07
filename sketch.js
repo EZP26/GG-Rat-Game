@@ -22,7 +22,7 @@ function setup() {
 
   while (maze.stack.length != 0) {
     if (count % 30 == 0){
-      
+
     }
     background("#aee68e");
     mazeIterate();
@@ -50,8 +50,6 @@ function hasWall(x, y, direction) {
 
 function keyPressed() {
   currentTile = maze.tiles[mouseDot.x][mouseDot.y];
-  //console.log("Before Move - Current Tile:", currentTile);
-  //console.log("Before Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
 
   if (keyCode === UP_ARROW || key === "W") {
     colorCheck = get((mouseXPos + res / 2), (mouseYPos + res / 2 ) - 20);
