@@ -6,6 +6,7 @@ let mouseXPos = 0;
 let mouseYPos = 0;
 let newX;
 let newY;
+let colorCheck;
 let currentTile;
 let mouseDot = {
   x: 0,
@@ -20,6 +21,9 @@ function setup() {
 
 
   while (maze.stack.length != 0) {
+    if (count % 30 == 0){
+      
+    }
     background("#aee68e");
     mazeIterate();
     drawMaze();
@@ -29,6 +33,9 @@ function setup() {
 function draw() {
   mouseXPos = mouseDot.x * res;
   mouseYPos = mouseDot.y * res;
+  if(mouseXPos == 18 && mouseYPos == 18){
+
+  }
   drawMaze();
   fill("red");
   ellipse(mouseXPos + res / 2, mouseYPos + res / 2, res / 2);
@@ -40,31 +47,45 @@ function hasWall(x, y, direction) {
   return wallStatus === "wall";
 }
 
+
 function keyPressed() {
   currentTile = maze.tiles[mouseDot.x][mouseDot.y];
-  console.log("Before Move - Current Tile:", currentTile);
-  console.log("Before Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
+  //console.log("Before Move - Current Tile:", currentTile);
+  //console.log("Before Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
 
   if (keyCode === UP_ARROW || key === "W") {
-    if (mouseDot.y !== 0 && currentTile.up !== "open") {
-      mouseDot.y--;
+    colorCheck = get((mouseXPos + res / 2), (mouseYPos + res / 2 ) - 20);
+    console.log(colorCheck);
+    if (mouseDot.y !== 0) {
+      if(colorCheck[0] != 0){
+        mouseDot.y--;
+      }
     }
   } else if (keyCode === DOWN_ARROW || key === "S") {
-    if (mouseDot.y !== 17 && currentTile.down !== "wall") {
-      mouseDot.y++;
+    colorCheck = get((mouseXPos + res / 2), (mouseYPos + res / 2 ) + 20);
+    console.log(colorCheck);
+    if (mouseDot.y !== 17 && colorCheck != 0) {
+      if(colorCheck[0] != 0){
+        mouseDot.y++;
+      }
     }
   } else if (keyCode === RIGHT_ARROW || key === "D") {
-    if (mouseDot.x !== 17 && currentTile.right !== "wall") {
-      mouseDot.x++;
+    colorCheck = get((mouseXPos + res / 2) + 20, (mouseYPos + res / 2 ));
+    console.log(colorCheck);
+    if (mouseDot.x !== 17) {
+      if(colorCheck[0] != 0){
+        mouseDot.x++;
+      }
     }
   } else if (keyCode === LEFT_ARROW || key === "A") {
-    if (mouseDot.x !== 0 && currentTile.left !== "wall") {
-      mouseDot.x--;
+    colorCheck = get((mouseXPos + res / 2) - 20, (mouseYPos + res / 2 ));
+    console.log(colorCheck);
+    if (mouseDot.x !== 0) {
+      if(colorCheck[0] != 0){
+        mouseDot.x--;
+      }
     }
   }
-
-  console.log("After Move - Current Tile:", currentTile);
-  console.log("After Move - mouseDot.x:", mouseDot.x, "mouseDot.y:", mouseDot.y);
 }
 
 
@@ -213,4 +234,9 @@ function drawTile(tile, i, j) {
       line(i * res, j * res, i * res, (j + 1) * res);
     }
   }
+}
+
+function colorDetect(mouseXPos, mouseYPos){
+  colorCheck = get(mouseXPos + 20, mouseYPos);
+  console.log(colorCheck);
 }
