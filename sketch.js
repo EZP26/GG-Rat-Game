@@ -34,9 +34,11 @@ function draw() {
   mouseXPos = mouseDot.x * res;
   mouseYPos = mouseDot.y * res;
   if(mouseXPos == 18 && mouseYPos == 18){
-
+    
   }
   drawMaze();
+  fill("green");
+  square(18 * 36.6 + res / 2, 18 * 36.6 + res /2, 40);
   fill("red");
   ellipse(mouseXPos + res / 2, mouseYPos + res / 2, res / 2);
 }
