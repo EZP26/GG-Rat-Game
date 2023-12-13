@@ -33,6 +33,8 @@ function setup() {
   drawMaze();
   generateCheese();
   imageMode(CENTER);
+  textAlign(CENTER);
+  textSize(32);
   while (maze.stack.length != 0) {
     background("#aee68e");
     mazeIterate();
@@ -44,13 +46,17 @@ function draw() {
   console.log(cheeseLocations.length);
   mouseXPos = mouseDot.x * res;
   mouseYPos = mouseDot.y * res;
-  if(mouseXPos == 18 && mouseYPos == 18){
-    isEnd = true;
+  if(mouseXPos == 680 && mouseYPos == 680){
+    background("GREEN");
+    fill("RED");
+    text("Great Job Getting out of the Maze", 360, 360);
+  } else {
+    print(mouseXPos, mouseYPos);
+    drawMaze();
+    fill("GREEN")
+    ellipse(34 * res / 2 + res / 2, 34 * res / 2 + res / 2, res / 2);
+    image(beeps, mouseXPos + res / 2, mouseYPos + res / 2, 30, 30);
   }
-  drawMaze();
-  //drawCheese();
-  //square(18 * 36.6 + res / 2, 18 * 36.6 + res /2, 40);
-  image(beeps, mouseXPos + res / 2, mouseYPos + res / 2, 30, 30);
 }
 
 
