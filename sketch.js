@@ -10,12 +10,6 @@ let colorCheck;
 let currentTile;
 let isEnd;
 let beeps;
-let cheese;
-let cheeseLocations = [];
-let cheeseDot = {
-  x: 0,
-  y: 0,
-}
 let mouseDot = {
   x: 0,
   y: 0,
@@ -23,7 +17,6 @@ let mouseDot = {
 
 function preload(){
   beeps = loadImage("beeps.png");
-  cheese = loadImage("cheese.png");
 }
 
 function setup() {
@@ -31,7 +24,6 @@ function setup() {
   noStroke();
   makeMaze(width / res + 2, height / res + 2);
   drawMaze();
-  generateCheese();
   imageMode(CENTER);
   textAlign(CENTER);
   textSize(32);
@@ -43,7 +35,6 @@ function setup() {
 }
 
 function draw() {
-  console.log(cheeseLocations.length);
   mouseXPos = mouseDot.x * res;
   mouseYPos = mouseDot.y * res;
   if(mouseXPos == 680 && mouseYPos == 680){
@@ -246,25 +237,6 @@ function drawTile(tile, i, j) {
   }
 }
 
-function generateCheese(){
-  for(let i = 0; i < 12; i++){
-    let cheeseX = Math.floor(Math.random() * 19);
-    let cheeseY = Math.floor(Math.random() * 19);
-
-    cheeseLocations.push(cheeseX);
-    cheeseLocations.push(cheeseY);
-  }
-}
-
-function drawCheese(){
-  for(let c = 0; c < cheeseLocations.length; c + 2){
-    cheese.x = cheeseLocations[c] * res;
-    cheese.y = cheeseLocations[c+1] * res;
-
-    ellipse(cheese.x, cheese.y, 30);
-    //image(cheese, cheese.x, cheese.y, 30, 30)
-  }
-}
 function colorDetect(mouseXPos, mouseYPos){
   colorCheck = get(mouseXPos + 20, mouseYPos);
   console.log(colorCheck);
